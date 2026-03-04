@@ -1,0 +1,588 @@
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-image: url('Captura de pantalla 2025-02-20 171003.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .game-container {
+            position: relative;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+            width: 83vw;
+            min-width: 0;
+            max-height: 90vh;
+            /* evita que se salga de la pantalla */
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* apila desde arriba y deja crecer */
+            align-items: stretch;
+
+            overflow-y: auto;
+            /* scroll solo si es ultra largo */
+            overflow-x: hidden;
+            /* nunca scroll horizontal */
+
+            transition: height 0.3s ease;
+            box-sizing: border-box;
+        }
+
+
+        /* ============================================
+   ESTILO DEL CARRUSEL COMO EN TU PROYECTO REAL
+=============================================== */
+
+        .carousel-wrapper {
+            width: 100%;
+            max-width: 450px;
+            /* el ancho “bonito” del carrusel */
+            margin: 0 auto 10px;
+            /* centrado REAL dentro del container */
+            display: block;
+            /* no necesitamos flex aquí */
+            box-sizing: border-box;
+            min-width: 0;
+        }
+
+        .carousel-container {
+            width: 50%;
+            max-width: 450px;
+            /* ancho estable del carrusel */
+
+            overflow-x: auto;
+            /* scroll horizontal */
+            overflow-y: hidden;
+            /* nunca vertical */
+
+            border-radius: 12px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+
+            white-space: nowrap;
+            /* IMPORTANTE: no usar normal */
+            box-sizing: border-box;
+            /* estabilidad */
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            /* ocupa exactamente el ancho visible */
+            min-width: 100%;
+            /* evita recortes raros */
+            box-sizing: border-box;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 15px 20px;
+            /* un poco más de aire lateral */
+            touch-action: manipulation;
+
+            background: #fff5f5;
+            border-radius: 12px;
+
+            font-size: 1rem;
+            font-weight: bold;
+            color: #b30000;
+
+            cursor: pointer;
+            user-select: none;
+
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, background 0.2s ease;
+
+            overflow: hidden;
+            /* clave: nada puede salirse */
+        }
+
+        /* ======== BOTONES (ITEMS) DEL CARRUSEL ======== */
+        .carousel-track {
+            display: flex;
+            flex-wrap: nowrap;
+            /* nunca baja a otra línea */
+            gap: 2px;
+
+            width: 100%;
+            /* el track se mantiene del ancho del carrusel */
+            box-sizing: border-box;
+
+            justify-content: flex-start;
+            /* comportamiento carrusel (scroll horizontal) */
+            align-items: stretch;
+        }
+
+
+
+
+        @keyframes scrollTexto {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(var(--scroll-x));
+            }
+        }
+
+        /* Hover */
+        .carousel-item:hover {
+            transform: scale(1.06);
+            background: #ffe1e1;
+        }
+
+        .carousel-item input[type="radio"] {
+            display: none;
+        }
+
+        .mensaje-feedback {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .titulo-acertijo {
+            font-size: 1.6rem;
+            line-height: 1.8rem;
+            margin-top: 65px;
+        }
+
+        .titulo-acertijo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+
+            background: linear-gradient(90deg, #ff4b2b, #ff416c, #8e2de2, #4a00e0);
+            -webkit-background-clip: text;
+            color: transparent;
+
+            text-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+
+            opacity: 0;
+            animation: fadeSlideIn 1s ease forwards;
+        }
+
+        @keyframes fadeSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes parpadeo {
+            0% {
+                color: red;
+            }
+
+            50% {
+                color: white;
+            }
+
+            100% {
+                color: red;
+            }
+        }
+
+        .temporizador {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            width: fit-content;
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(45deg, #3308ce, #3308ce);
+            padding: 10px 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            font-size: 2rem;
+            font-weight: bold;
+            animation: parpadeo 1s infinite;
+        }
+
+        #respuesta {
+            width: 100%;
+            max-width: 350px;
+            box-sizing: border-box;
+            padding: 12px 16px;
+
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+
+            color: #0a0a0a;
+            background: rgba(255, 255, 255, 0.07);
+
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+
+            outline: none;
+            transition: 0.25s ease;
+
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+
+        #respuesta::placeholder {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        #respuesta:focus {
+            border-color: #ff416c;
+            box-shadow: 0 0 12px rgba(255, 65, 108, 0.7), 0 4px 16px rgba(0, 0, 0, 0.45);
+            transform: scale(1.03);
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===============================
+   MODAL COMODÍN
+================================ */
+        .modal-comodin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-comodin-box {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.4s ease;
+        }
+
+        .modal-comodin-box h3 {
+            margin-top: 0;
+            color: #ff4b2b;
+            font-size: 22px;
+        }
+
+        .modal-comodin-box p {
+            font-size: 18px;
+            color: #333;
+            margin: 15px 0 20px;
+        }
+
+        .modal-comodin-box button {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .modal-comodin-box button:hover {
+            transform: scale(1.05);
+        }
+
+        .acciones-juego {
+            display: flex;
+            flex-wrap: wrap;
+            /* permite salto automático */
+            gap: 12px;
+            justify-content: center;
+            /* centrados horizontalmente */
+            width: 100%;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            .acciones-juego {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        /* ===============================
+   ANIMACIONES DE FEEDBACK
+================================ */
+
+
+        /* Sacudida (incorrecto) */
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-8px);
+            }
+
+            40% {
+                transform: translateX(8px);
+            }
+
+            60% {
+                transform: translateX(-6px);
+            }
+
+            80% {
+                transform: translateX(6px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .shake {
+            animation: shake 0.4s ease;
+        }
+
+        /* Rebote suave (correcto) */
+        @keyframes bounce {
+            0% {
+                transform: scale(1);
+            }
+
+            30% {
+                transform: scale(1.05);
+            }
+
+            60% {
+                transform: scale(0.98);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .bounce {
+            animation: bounce 0.4s ease;
+        }
+
+        /* Mensajes más vistosos */
+        .mensaje-feedback {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        /*------------------------------------------------------------------*/
+        .modal-subcategoria-box {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.4s ease;
+        }
+
+        .modal-subcategoria-box h3 {
+            margin-top: 0;
+            color: #ff4b2b;
+            font-size: 22px;
+        }
+
+        .modal-subcategoria-box p {
+            font-size: 18px;
+            color: #333;
+            margin: 15px 0 20px;
+        }
+
+        .modal-subcategoria-box button {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .modal-comodin-box button:hover {
+            transform: scale(1.05);
+        }
+
+        .subcategoria-completada {
+            background: linear-gradient(45deg, #2ecc71, #27ae60) !important;
+            color: white;
+            font-weight: bold;
+            pointer-events: auto;
+        }
+
+        .subcategoria-completada span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (hover: none) {
+            .subcategoria-completada {
+                background: linear-gradient(45deg, #2ecc71, #27ae60) !important;
+                color: white;
+                font-weight: bold;
+                pointer-events: auto;
+                /* CLAVE */
+            }
+        }
+
+        .categoria-completada {
+            background-color: #2ecc71 !important;
+            color: white;
+            font-weight: bold;
+        }
+
+        .acciones-juego {
+            display: flex;
+            flex-wrap: wrap;
+            /* permite salto automático */
+            justify-content: center;
+            gap: 12px;
+
+            width: 100%;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .acciones-juego button {
+            padding: 15px 24px;
+            font-size: 1.5rem;
+
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            cursor: pointer;
+
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+
+            /* control de tamaño */
+            min-width: 100px;
+            /* cabe "Ver respuesta" */
+            max-width: 200px;
+            flex: 0 0 auto;
+
+            text-align: center;
+            white-space: nowrap;
+
+            margin: 0;
+            /* no usar margin aquí */
+        }
+
+        html {
+            overflow-y: scroll;
+        }
+
+        .texto-wrapper {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .texto-scroll {
+            display: inline-block;
+            white-space: nowrap;
+            padding-right: 40px;
+            will-change: transform;
+        }
+
+        .carousel-item .texto-wrapper[data-overflow="true"] {
+            text-align: left;
+            /* solo largos */
+        }
+
+        @media (hover: hover) {
+            .texto-wrapper[data-overflow="true"]:hover .texto-scroll {
+                animation: scrollTexto 5s linear forwards;
+            }
+        }
+
+        .texto-wrapper.animar .texto-scroll {
+            animation: scrollTexto 6s linear forwards;
+        }
+
+        #textoAcertijo {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            /* CLAVE en flex */
+            white-space: normal;
+            overflow-wrap: anywhere;
+            /* rompe palabras largas */
+            word-break: break-word;
+            box-sizing: border-box;
+        }
+
+        #acertijoContainer {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            /* CLAVE en flex */
+            box-sizing: border-box;
+        }
+
+        .carousel-wrapper,
+        .carousel-container {
+            width: 100%;
+            max-width: 450px;
+            min-width: 0;
+            /* CLAVE en flex */
+            box-sizing: border-box;
+        }

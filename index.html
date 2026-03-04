@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="Black White Minimalist Professional Initial Logo - copia.png" />
+    <title>EnigmaX</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <div class="game-container">
+
+        <h2 class="titulo-acertijo">DESCIFRA EL ACERTIJO</h2>
+        <div class="temporizador" id="temporizador">0s</div>
+
+        <!-- Caja del acertijo -->
+        <div id="acertijoContainer" class="acertijo-container hidden">
+            <!-- CATEGORÍAS (CARRUSEL) -->
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="trackCategorias"></div>
+                </div>
+            </div>
+
+            <!-- SUBCATEGORÍAS (CARRUSEL) -->
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="trackSubcategorias"></div>
+                </div>
+            </div>
+            <p id="textoAcertijo" class="texto-acertijo">
+            </p>
+            <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
+
+            <p id="textoComodin" class="hidden"></p>
+
+            <span id="puntaje">Puntaje: 50</span><br><br>
+
+            <div class="acciones-juego">
+    <button id="btnVerificar">Verificar</button>
+    <button id="btnComodin">Comodín</button>
+</div>
+            <p id="mensajeFeedback" class="mensaje-feedback"></p>
+            <div class="contador-linea"><br>
+                <span id="contadorAcertijosTotales">Acertijos totales: 0</span>
+<span id="contadorAcertijosCorrectos" style="color: green; margin-left: 10px;">
+    0
+</span>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+
+    <!-- DATOS -->
+    <script src="certijos.js"></script>
+    <script src="ColorCatSub.js"></script>
+    <script src="MultiplicadoresDific.js"></script>
+    <script src="sonidos.js"></script>
+
+    <!-- LÓGICA -->
+    <script src="script.js"></script>
+</body>
+
+</html>
